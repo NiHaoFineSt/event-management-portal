@@ -68,3 +68,27 @@
       </form>
     </div>
   </div>
+  <script>
+  function saveEvent() {
+    const name = document.getElementById("eventName").value;
+    const date = document.getElementById("eventDate").value;
+    const place = document.getElementById("eventPlace").value;
+    const category = document.getElementById("eventCategory").value;
+
+    const newEvent = { name, date, place, category };
+
+    let events = JSON.parse(localStorage.getItem("events")) || [];
+    events.push(newEvent);
+    localStorage.setItem("events", JSON.stringify(events));
+
+    // Optional: alert user
+    alert("Event saved!");
+
+    // Redirect to the Event List page
+    window.location.href = "event_list.html";
+  }
+</script>
+</div>
+</body>
+</html>
+
