@@ -45,6 +45,11 @@
     color: #ccc;
   }
   
+  thead.table th {
+  background-color: #241da4;
+  color: #fff;
+  }
+
   /* Menu Section */
   .menu {
     flex-grow: 1;

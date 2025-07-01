@@ -1,0 +1,118 @@
+/* General Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Body Layout */
+body {
+  display: flex;
+  height: 100vh;
+  background-color: #f4f4f4;
+  overflow: hidden;
+}
+
+/* Sidebar Styles */
+.sidebar {
+  width: 260px;
+  background-color: #1e1e2f;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 20px 0;
+  height: 100vh;
+  position: fixed;
+}
+
+/* Profile Section */
+.profile {
+  text-align: center;
+  padding: 20px 0;
+}
+
+.profile img {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #fff;
+}
+
+.profile h3 {
+  margin-top: 10px;
+  font-size: 18px;
+  color: #ccc;
+}
+
+/* Menu Section */
+.menu {
+  flex-grow: 1;
+  padding: 0 20px;
+}
+
+.menu ul {
+  list-style: none;
+}
+
+.menu ul li {
+  margin: 20px 0;
+}
+
+.menu ul li a {
+  color: #ccc;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  transition: 0.3s;
+}
+
+.menu ul li a i {
+  margin-right: 10px;
+  font-size: 18px;
+  width: 25px;
+}
+
+.menu ul li a:hover {
+  color: #fff;
+}
+
+/* Logout Section */
+.logout {
+  padding: 0 20px;
+}
+
+.logout a {
+  color: #ff4d4d;
+  text-decoration: none;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+}
+
+.logout a i {
+  margin-right: 10px;
+  font-size: 18px;
+  width: 25px;
+}
+
+.logout a:hover {
+  color: #fff;
+}
+
+/* Main Content */
+.main-content {
+  margin-left: 260px;
+  padding: 30px;
+  width: 100%;
+  overflow-y: auto;
+  background-color: #f4f4f4;
+}
+
+.main-content h2 {
+  font-weight: 600;
+  margin-bottom: 20px;
+}
