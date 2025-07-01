@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en" x-data="{ sidebarOpen: false }">
+  <head>
+    <meta charset="UTF-8">
+    <title>Products - Seller Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js" defer></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        .sidebar {
+            min-height: 100vh;
+            background-color: #241da4;
+            color: white;
+        }
+
+        .sidebar a {
+            color: #adb5bd;
+            text-decoration: none;
+        }
+
+        .sidebar a:hover {
+            color: #fff;
+        }
+    </style>
+  </head>
+  <body>
+    <div class="container-fluid">
+      <div class="row">
+        <!-- Sidebar -->
+        <nav class="col-md-2 d-none d-md-block sidebar py-4 px-3">
+            <h4 class="text-white mb-4">Seller Panel</h4>
+            <ul class="nav flex-column">
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="Dashboard seller.html">Dashboard</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="#">Orders</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="product layout.html">Products</a>
+                </li>
+                <li class="nav-item mb-2">
+                    <a class="nav-link" href="#">Messages</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Settings</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Content -->
+        <main class="col-md-10 ms-sm-auto px-md-4">
+          <div class="d-flex justify-content-between align-items-center py-3">
+            <h2>Product List</h2>
+            <button class="btn btn-success" @click="showForm = !showForm">+ Add Product</button>
+          </div>
+
+          <!-- Add Product Form -->
+          <div x-show="showForm" class="card p-3 mb-4">
+            <form>
+              <div class="row">
+                <div class="col-md-6 mb-2">
+                  <label class="form-label">Product Name</label>
+                  <input type="text" class="form-control">
+                </div>
+                <div class="col-md-6 mb-2">
+                  <label class="form-label">Price</label>
+                  <input type="number" class="form-control">
+                </div>
+                <div class="col-md-12 mb-2">
+                  <label class="form-label">Description</label>
+                  <textarea class="form-control" rows="2"></textarea>
+                </div>
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary">Save Product</button>
+                </div>
+              </div>
+            </form>
+          </div>
+
+          <!-- Product Table -->
+          <table class="table table-hover">
+            <thead class="table-dark">
+              <tr>
+                <th>Product ID</th>
+                <th>Name</th>
+                <th>Stock</th>
+                <th>Price</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>#P1001</td>
+                <td>Playdough Set</td>
+                <td>35</td>
+                <td>$19.99</td>
+                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
+              </tr>
+              <tr>
+                <td>#P1002</td>
+                <td>Building Blocks</td>
+                <td>20</td>
+                <td>$34.50</td>
+                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
+              </tr>
+            </tbody>
+          </table>
+        </main>
+      </div>
+    </div>
+  </body>
+</html>
