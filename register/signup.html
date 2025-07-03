@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up Page</title>
+    <link rel="stylesheet" href="signup.css">
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+</head>
+<body>
+    <div class="container" x-data="signupForm()">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Create Account</h1>
+            </div>
+
+            <form @submit.prevent="handleSignup" class="auth-form">
+                <!-- Name Fields -->
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="firstName">First Name</label>
+                        <input 
+                            type="text" 
+                            id="firstName" 
+                            x-model="form.firstName"
+                            :class="{'error': errors.firstName}"
+                            placeholder="First name"
+                            required
+                        >
+                        <span x-show="errors.firstName" x-text="errors.firstName" class="error-message"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="lastName">Last Name</label>
+                        <input 
+                            type="text" 
+                            id="lastName" 
+                            x-model="form.lastName"
+                            :class="{'error': errors.lastName}"
+                            placeholder="Last name"
+                            required
+                        >
+                        <span x-show="errors.lastName" x-text="errors.lastName" class="error-message"></span>
+                    </div>
+                </div>
+
+                <!-- Email Field -->
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input 
+                        type="email" 
+                        id="email" 
+                        x-model="form.email"
+                        :class="{'error': errors.email}"
+                        placeholder="Enter your email"
+                        required
+                    >
+                    <span x-show="errors.email" x-text="errors.email" class="error-message"></span>
+                </div>
+
+                <!-- Password Field -->
+                <div class="form-group">
+                    <label for="password">Password</label>
+                        <input 
+                            :type="showPassword ? 'text' : 'password'" 
+                            id="password" 
+                            x-model="form.password"
+                            :class="{'error': errors.password}"
+                            placeholder="Create a password"
+                            required
+                        >
+                    <span x-show="errors.password" x-text="errors.password" class="error-message"></span>
+                    
+                    <!-- Password Strength Indicator -->
+                    <div class="password-strength" x-show="form.password">
+                        <div class="strength-bar">
+                            <div class="strength-fill" :class="passwordStrength.class" :style="`width: ${passwordStrength.width}%`"></div>
+                        </div>
+                        <span class="strength-text" x-text="passwordStrength.text"></span>
+                    </div>
+                </div>
+
+                <!-- Confirm Password Field -->
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input 
+                        type="password" 
+                        id="confirmPassword" 
+                        x-model="form.confirmPassword"
+                        :class="{'error': errors.confirmPassword}"
+                        placeholder="Confirm your password"
+                        required
+                    >
+                    <span x-show="errors.confirmPassword" x-text="errors.confirmPassword" class="error-message"></span>
+                </div>
+
+                <!-- Submit Button -->
+                <button 
+                    type="submit" 
+                    class="submit-btn"
+                    :disabled="loading"
+                    :class="{'loading': loading}"
+                >
+                    <span x-show="!loading">Create Account <a href="login.html"></a></span>
+                    <span x-show="loading">Creating Account...</span>
+                </button>
+
+                <!-- Success/Error Messages -->
+                <div x-show="message" class="message" :class="messageType">
+                    <span x-text="message"></span>
+                </div>
+            </form>
+
+            <!-- Login Link -->
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Sign in here</a></p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function signupForm() {
+            return {
+                form: {
+                    firstName: '',
+                    lastName: '',
+                    email: '',
+                    password: '',
+                    confirmPassword: '',
+                    agreeToTerms: false
+                },
+                errors: {},
+                loading: false,
+                showPassword: false,
+                message: '',
+                messageType: '',
+
+                get passwordStrength() {
+                    const password = this.form.password;
+                    if (!password) return { width: 0, class: '', text: '' };
+                    
+                    let score = 0;
+                    if (password.length >= 8) score++;
+                    if (/[a-z]/.test(password)) score++;
+                    if (/[A-Z]/.test(password)) score++;
+                    if (/[0-9]/.test(password)) score++;
+                    if (/[^A-Za-z0-9]/.test(password)) score++;
+                    
+                    const strength = {
+                        0: { width: 20, class: 'weak', text: 'Very Weak' },
+                        1: { width: 40, class: 'weak', text: 'Weak' },
+                        2: { width: 60, class: 'medium', text: 'Fair' },
+                        3: { width: 80, class: 'strong', text: 'Good' },
+                        4: { width: 100, class: 'very-strong', text: 'Strong' },
+                        5: { width: 100, class: 'very-strong', text: 'Very Strong' }
+                    };
+                    
+                    return strength[score] || strength[0];
+                },
+
+                validateForm() {
+                    this.errors = {};
+                    
+                    if (!this.form.firstName.trim()) {
+                        this.errors.firstName = 'First name is required';
+                    }
+                    
+                    if (!this.form.lastName.trim()) {
+                        this.errors.lastName = 'Last name is required';
+                    }
+                    
+                    if (!this.form.email) {
+                        this.errors.email = 'Email is required';
+                    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(this.form.email)) {
+                        this.errors.email = 'Please enter a valid email';
+                    }
+                    
+                    if (!this.form.password) {
+                        this.errors.password = 'Password is required';
+                    } else if (this.form.password.length < 8) {
+                        this.errors.password = 'Password must be at least 8 characters';
+                    }
+                    
+                    if (!this.form.confirmPassword) {
+                        this.errors.confirmPassword = 'Please confirm your password';
+                    } else if (this.form.password !== this.form.confirmPassword) {
+                        this.errors.confirmPassword = 'Passwords do not match';
+                    }
+                    
+                    if (!this.form.agreeToTerms) {
+                        this.errors.agreeToTerms = 'You must agree to the terms and conditions';
+                    }
+                    
+                    return Object.keys(this.errors).length === 0;
+                },
+
+                async handleSignup() {
+                    if (!this.validateForm()) return;
+                    
+                    this.loading = true;
+                    this.message = '';
+                    
+                    try {
+                        // Simulate API call
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                        
+                        // Simulate success
+                        this.message = 'Account created successfully! Please check your email to verify your account.';
+                        this.messageType = 'success';
+                        
+                        // Reset form after success
+                        setTimeout(() => {
+                            this.form = {
+                                firstName: '',
+                                lastName: '',
+                                email: '',
+                                password: '',
+                                confirmPassword: '',
+                                agreeToTerms: false
+                            };
+                        }, 2000);
+                        
+                    } catch (error) {
+                        this.message = 'An error occurred. Please try again.';
+                        this.messageType = 'error';
+                    } finally {
+                        this.loading = false;
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+</html>
