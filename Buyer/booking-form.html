@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Item - Flea Market</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body x-data="{ 
+    itemId: null,
+    itemName: '',
+    phone: '',
+    email: '',
+    pickupDate: '',
+    pickupTime: '',
+    formErrors: {},
+    
+    init() {
+        // Get URL parameters
+        const urlParams = new URLSearchParams(window.location.search);
+        this.itemId = urlParams.get('itemId');
+        this.itemName = urlParams.get('itemName') || 'Unknown Item';
+        
+        // Set default date to tomorrow
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+        this.pickupDate = tomorrow.toISOString().split('T')[0];
+    },
+    
+    validateForm() {
+        this.formErrors = {};
+        let valid = true;
+        
+        if (!this.phone || !this.phone.match(/^\d{10}$/)) {
+            this.formErrors.phone = 'Please enter a valid 10-digit phone number';
+            valid = false;
+        }
+        
+        if (!this.email || !this.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+            this.formErrors.email = 'Please enter a valid email address';
+            valid = false;
+        }
+        
+        if (!this.pickupDate) {
+            this.formErrors.pickupDate = 'Please select a pickup date';
+            valid = false;
+        }
+        
+        if (!this.pickupTime) {
+            this.formErrors.pickupTime = 'Please select a pickup time';
+            valid = false;
+        }
+        
+        return valid;
+    },
+    
+    submitForm() {
+        if (this.validateForm()) {
+            // Create booking object
+            const booking = {
+                itemId: this.itemId,
+                itemName: this.itemName,
+                phone: this.phone,
+                email: this.email,
+                pickupDate: this.pickupDate,
+                pickupTime: this.pickupTime
+            };
+            
+            // Get existing bookings or initialize empty array
+            let bookedItems = JSON.parse(localStorage.getItem('bookedItems') || '[]');
+            
+            // Add new booking
+            bookedItems.push(booking);
+            
+            // Save to localStorage
+            localStorage.setItem('bookedItems', JSON.stringify(bookedItems));
+            
+            // Redirect to booked items page
+            window.location.href = 'booked-items.html';
+        }
+    }
+}">
+    <div class="booking-page">
+        <div class="booking-container">
+            <div class="booking-header">
+                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Items</a>
+                <h1>Book Item</h1>
+            </div>
+            
+            <div class="booking-form">
+                <div class="form-item-details">
+                    <h2 x-text="itemName"></h2>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" x-model="phone" placeholder="Enter your phone number">
+                    <p class="error-message" x-show="formErrors.phone" x-text="formErrors.phone"></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" x-model="email" placeholder="Enter your email address">
+                    <p class="error-message" x-show="formErrors.email" x-text="formErrors.email"></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pickupDate">Pickup Date</label>
+                    <input type="date" id="pickupDate" x-model="pickupDate">
+                    <p class="error-message" x-show="formErrors.pickupDate" x-text="formErrors.pickupDate"></p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="pickupTime">Pickup Time</label>
+                    <input type="time" id="pickupTime" x-model="pickupTime">
+                    <p class="error-message" x-show="formErrors.pickupTime" x-text="formErrors.pickupTime"></p>
+                </div>
+                
+                <button @click="submitForm()" class="submit-btn">Book Now</button>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
