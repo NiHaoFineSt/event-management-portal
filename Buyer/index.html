@@ -1,60 +1,576 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>FleaMarket - Home</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <script src="https://cdn.jsdelivr.net/npm/alpinejs" defer></script>
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-  <style>
-    :root { --main-blue: #241da4; }
-    .navbar { background-color: var(--main-blue) !important; }
-    .navbar .nav-link, .navbar .navbar-brand { color: white !important; }
-    .btn-primary { background-color: var(--main-blue) !important; border-color: var(--main-blue) !important; }
-    .btn-primary:hover { background-color: #1a1580 !important; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FlexMarket - Your Local Flea Market Platform</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🏪</text></svg>">
+    <!-- Alpine.js -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
 </head>
-<body x-data="{ items: [
-  { id: 1, name: 'Vintage Clock', price: 35, image: 'img/clock.jpg' },
-  { id: 2, name: 'Old Books', price: 15, image: 'img/books.jpg' },
-  { id: 3, name: 'Retro Chair', price: 50, image: 'img/chair.jpg' }
-]}">
-
-  <nav class="navbar navbar-expand-lg shadow-sm px-4">
-    <a class="navbar-brand fw-bold" href="#">FleaMarket</a>
-    <ul class="navbar-nav ms-auto">
-      <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-      <li class="nav-item"><a class="nav-link" href="items.html">Browse Items</a></li>
-      <li class="nav-item"><a class="nav-link" href="wishlist.html">Wishlist</a></li>
-    </ul>
-  </nav>
-
-  <header class="bg-dark text-white text-center py-5">
-    <h1>Welcome to FleaMarket</h1>
-    <p>Find treasures from local sellers</p>
-    <a href="items.html" class="btn btn-warning mt-3">Start Browsing</a>
-  </header>
-
-  <section class="container my-5">
-    <h2>Featured Listings</h2>
-    <div class="row">
-      <template x-for="item in items" :key="item.id">
-        <div class="col-md-4 mt-3">
-          <div class="card h-100 shadow-sm">
-            <img :src="item.image" class="card-img-top" style="height: 200px; object-fit: cover;" />
-            <div class="card-body">
-              <h5 class="card-title" x-text="item.name"></h5>
-              <p>RM <span x-text="item.price"></span></p>
-              <a href="details.html" class="btn btn-primary">View Details</a>
+<body class="min-h-screen bg-gray-50" x-data="fleaMarketApp()">
+    <!-- Desktop Sidebar -->
+    <div class="sidebar-desktop">
+        <!-- User Profile Section -->
+        <div class="sidebar-profile">
+            <div class="avatar">
+                <span>B</span>
             </div>
-          </div>
+            <h2>Hello, Buyer</h2>
+            <p>🏪 FlexMarket</p>
         </div>
-      </template>
-    </div>
-  </section>
 
-  <footer class="bg-light text-center py-3 mt-4 border-top">
-    <p class="mb-0">© 2025 FleaMarket</p>
-  </footer>
+        <!-- Navigation Menu -->
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <button @click="setActiveMenu('home')" :class="activeMenuItem === 'home' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="home"></i>
+                        <span>Home</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('categories')" :class="activeMenuItem === 'categories' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="layers"></i>
+                        <span>Categories</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('sellers')" :class="activeMenuItem === 'sellers' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="users"></i>
+                        <span>Sellers</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('deals')" :class="activeMenuItem === 'deals' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="percent"></i>
+                        <span>Deals & Offers</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('notifications')" :class="activeMenuItem === 'notifications' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="bell"></i>
+                        <span>Notifications</span>
+                        <span class="badge">3</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('settings')" :class="activeMenuItem === 'settings' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('help')" :class="activeMenuItem === 'help' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="help-circle"></i>
+                        <span>Help & Support</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('about')" :class="activeMenuItem === 'about' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="info"></i>
+                        <span>About</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Logout Button -->
+        <div class="sidebar-logout">
+            <button class="logout-btn">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div x-show="sidebarOpen" x-transition:enter="transition-opacity ease-linear duration-300" x-transition:enter-start="opacity-0" x-transition:enter-end="opacity-100" x-transition:leave="transition-opacity ease-linear duration-300" x-transition:leave-start="opacity-100" x-transition:leave-end="opacity-0" class="sidebar-overlay" @click="sidebarOpen = false"></div>
+
+    <!-- Mobile Sidebar -->
+    <div x-show="sidebarOpen" x-transition:enter="transition ease-in-out duration-300 transform" x-transition:enter-start="-translate-x-full" x-transition:enter-end="translate-x-0" x-transition:leave="transition ease-in-out duration-300 transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="-translate-x-full" class="sidebar-mobile">
+        <!-- Same content as desktop sidebar -->
+        <div class="sidebar-profile">
+            <div class="avatar">
+                <span>B</span>
+            </div>
+            <h2>Hello, Buyer</h2>
+            <p>🏪 FleaMarket</p>
+        </div>
+
+        <nav class="sidebar-nav">
+            <ul>
+                <li>
+                    <button @click="setActiveMenu('home'); sidebarOpen = false" :class="activeMenuItem === 'home' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="home"></i>
+                        <span>Home</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('categories'); sidebarOpen = false" :class="activeMenuItem === 'categories' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="layers"></i>
+                        <span>Categories</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('sellers'); sidebarOpen = false" :class="activeMenuItem === 'sellers' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="users"></i>
+                        <span>Sellers</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('deals'); sidebarOpen = false" :class="activeMenuItem === 'deals' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="percent"></i>
+                        <span>Deals & Offers</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('notifications'); sidebarOpen = false" :class="activeMenuItem === 'notifications' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="bell"></i>
+                        <span>Notifications</span>
+                        <span class="badge">3</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('settings'); sidebarOpen = false" :class="activeMenuItem === 'settings' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="settings"></i>
+                        <span>Settings</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('help'); sidebarOpen = false" :class="activeMenuItem === 'help' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="help-circle"></i>
+                        <span>Help & Support</span>
+                    </button>
+                </li>
+                <li>
+                    <button @click="setActiveMenu('about'); sidebarOpen = false" :class="activeMenuItem === 'about' ? 'menu-item active' : 'menu-item'">
+                        <i data-lucide="info"></i>
+                        <span>About</span>
+                    </button>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="sidebar-logout">
+            <button class="logout-btn">
+                <i data-lucide="log-out"></i>
+                <span>Logout</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <!-- Mobile Menu Button & Logo -->
+                <div class="header-left">
+                    <button @click="sidebarOpen = true" class="mobile-menu-btn">
+                        <i data-lucide="menu"></i>
+                    </button>
+                    <div class="mobile-logo">
+                        <h1>🏪 FleaMarket</h1>
+                    </div>
+                </div>
+
+                <!-- Search Bar -->
+                <div class="search-container">
+                    <div class="search-input-wrapper">
+                        <i data-lucide="search" class="search-icon"></i>
+                        <input type="text" x-model="searchQuery" placeholder="Search for items, sellers, or categories..." class="search-input">
+                    </div>
+                </div>
+
+                <!-- User Actions -->
+                <div class="header-actions">
+                    <button class="action-btn">
+                        <i data-lucide="heart"></i>
+                        <span x-show="favorites.length > 0" class="action-badge" x-text="favorites.length"></span>
+                    </button>
+                    <button class="action-btn">
+                        <i data-lucide="shopping-cart"></i>
+                        <span x-show="cartItems > 0" class="action-badge" x-text="cartItems"></span>
+                    </button>
+                    <button class="action-btn">
+                        <i data-lucide="user"></i>
+                    </button>
+                    <button class="sell-btn">Sell Item</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Location Bar -->
+        <div class="location-bar">
+            <div class="location-content">
+                <span class="location-text">
+                    <i data-lucide="map-pin"></i>
+                    Current Location: Downtown Market
+                </span>
+                <button class="change-location-btn">Change Location</button>
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section class="hero">
+            <div class="hero-content">
+                <h2>Discover Amazing Deals at Local Flea Markets</h2>
+                <p>Find unique items, vintage treasures, and everyday essentials from trusted local sellers</p>
+                <div class="hero-buttons">
+                    <button class="btn-primary">Start Shopping</button>
+                    <button class="btn-secondary">Browse Categories</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Categories Section -->
+        <section class="categories-section">
+            <div class="section-content">
+                <h3>Shop by Category</h3>
+                <div class="categories-grid">
+                    <div class="category-card">
+                        <div class="category-icon">📱</div>
+                        <h4>Electronics</h4>
+                        <p>245 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🪑</div>
+                        <h4>Furniture</h4>
+                        <p>189 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">👕</div>
+                        <h4>Clothing</h4>
+                        <p>567 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">📚</div>
+                        <h4>Books</h4>
+                        <p>123 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🧸</div>
+                        <h4>Toys</h4>
+                        <p>89 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🏺</div>
+                        <h4>Collectibles</h4>
+                        <p>156 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">⚽</div>
+                        <h4>Sports</h4>
+                        <p>78 items</p>
+                    </div>
+                    <div class="category-card">
+                        <div class="category-icon">🏡</div>
+                        <h4>Home & Garden</h4>
+                        <p>234 items</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Filters and View Controls -->
+        <section class="filters-section">
+            <div class="section-content">
+                <div class="filters-controls">
+                    <div class="filters-left">
+                        <button @click="showFilters = !showFilters" class="filter-btn">
+                            <i data-lucide="filter"></i>
+                            <span>Filters</span>
+                        </button>
+                        <select class="sort-select">
+                            <option value="relevance">Most Relevant</option>
+                            <option value="price-low">Price: Low to High</option>
+                            <option value="price-high">Price: High to Low</option>
+                            <option value="newest">Newest First</option>
+                            <option value="ending">Ending Soon</option>
+                        </select>
+                    </div>
+                    <div class="filters-right">
+                        <span class="view-label">View:</span>
+                        <button @click="viewMode = 'grid'" :class="viewMode === 'grid' ? 'view-btn active' : 'view-btn'">
+                            <i data-lucide="grid-3x3"></i>
+                        </button>
+                        <button @click="viewMode = 'list'" :class="viewMode === 'list' ? 'view-btn active' : 'view-btn'">
+                            <i data-lucide="list"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters Panel -->
+                <div x-show="showFilters" x-transition class="filters-panel">
+                    <div class="filters-grid">
+                        <div class="filter-group">
+                            <label>Price Range</label>
+                            <input type="range" x-model="priceRange[0]" min="0" max="1000" class="price-slider">
+                            <div class="price-display">
+                                <span x-text="'$' + priceRange[0]"></span>
+                                <span x-text="'$' + priceRange[1]"></span>
+                            </div>
+                        </div>
+                        <div class="filter-group">
+                            <label>Condition</label>
+                            <select class="filter-select">
+                                <option>Any condition</option>
+                                <option>New</option>
+                                <option>Excellent</option>
+                                <option>Good</option>
+                                <option>Fair</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label>Location</label>
+                            <select class="filter-select">
+                                <option>Any location</option>
+                                <option>Downtown Market</option>
+                                <option>North Plaza</option>
+                                <option>South District</option>
+                                <option>East Side</option>
+                            </select>
+                        </div>
+                        <div class="filter-group">
+                            <label class="checkbox-label">
+                                <input type="checkbox" x-model="promotedOnly">
+                                <span>Promoted items only</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Items -->
+        <section class="featured-section">
+            <div class="section-content">
+                <div class="section-header">
+                    <h3>Featured Items</h3>
+                    <button class="view-all-btn">View All</button>
+                </div>
+
+                <div :class="viewMode === 'grid' ? 'items-grid' : 'items-list'">
+                    <!-- Item 1 -->
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=200&h=200&fit=crop" alt="Vintage Leather Armchair">
+                            <span class="promoted-badge">
+                                <i data-lucide="tag"></i>
+                                Promoted
+                            </span>
+                            <button @click="toggleFavorite(1)" class="favorite-btn">
+                                <i :class="favorites.includes(1) ? 'data-lucide=heart favorite-active' : 'data-lucide=heart'" data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h4>Vintage Leather Armchair</h4>
+                            <div class="item-price">
+                                <span class="current-price">$150</span>
+                                <span class="original-price">$200</span>
+                                <span class="discount-badge">25% off</span>
+                            </div>
+                            <div class="item-details">
+                                <div class="detail-item">
+                                    <i data-lucide="star"></i>
+                                    <span>4.8</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Downtown Market</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="clock"></i>
+                                    <span>2 days</span>
+                                </div>
+                            </div>
+                            <div class="item-meta">
+                                <span>by John's Antiques</span>
+                                <span class="condition-badge">Good</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button @click="addToCart(1)" class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-view-details">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Item 2 -->
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=200&h=200&fit=crop" alt="iPhone 12 Pro">
+                            <button @click="toggleFavorite(2)" class="favorite-btn">
+                                <i :class="favorites.includes(2) ? 'data-lucide=heart favorite-active' : 'data-lucide=heart'" data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h4>iPhone 12 Pro - Unlocked</h4>
+                            <div class="item-price">
+                                <span class="current-price">$450</span>
+                                <span class="original-price">$500</span>
+                                <span class="discount-badge">10% off</span>
+                            </div>
+                            <div class="item-details">
+                                <div class="detail-item">
+                                    <i data-lucide="star"></i>
+                                    <span>4.9</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>North Plaza</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="clock"></i>
+                                    <span>5 hours</span>
+                                </div>
+                            </div>
+                            <div class="item-meta">
+                                <span>by TechDeals</span>
+                                <span class="condition-badge">Excellent</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button @click="addToCart(2)" class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-view-details">View Details</button>
+                        </div>
+                    </div>
+
+                    <!-- Item 3 -->
+                    <div class="item-card">
+                        <div class="item-image">
+                            <img src="https://images.unsplash.com/photo-1578662996442-48f60103fc96?w=200&h=200&fit=crop" alt="Ceramic Vase Set">
+                            <span class="promoted-badge">
+                                <i data-lucide="tag"></i>
+                                Promoted
+                            </span>
+                            <button @click="toggleFavorite(3)" class="favorite-btn">
+                                <i :class="favorites.includes(3) ? 'data-lucide=heart favorite-active' : 'data-lucide=heart'" data-lucide="heart"></i>
+                            </button>
+                        </div>
+                        <div class="item-content">
+                            <h4>Handmade Ceramic Vase Set</h4>
+                            <div class="item-price">
+                                <span class="current-price">$35</span>
+                                <span class="original-price">$50</span>
+                                <span class="discount-badge">30% off</span>
+                            </div>
+                            <div class="item-details">
+                                <div class="detail-item">
+                                    <i data-lucide="star"></i>
+                                    <span>4.7</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="map-pin"></i>
+                                    <span>Art District</span>
+                                </div>
+                                <div class="detail-item">
+                                    <i data-lucide="clock"></i>
+                                    <span>1 day</span>
+                                </div>
+                            </div>
+                            <div class="item-meta">
+                                <span>by ArtisanCrafts</span>
+                                <span class="condition-badge">New</span>
+                            </div>
+                        </div>
+                        <div class="item-actions">
+                            <button @click="addToCart(3)" class="btn-add-cart">Add to Cart</button>
+                            <button class="btn-view-details">View Details</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-content">
+                <div class="footer-grid">
+                    <div class="footer-column">
+                        <h4>FlexMarket</h4>
+                        <p>Your trusted local flea market platform connecting buyers and sellers in your community.</p>
+                    </div>
+                    <div class="footer-column">
+                        <h5>For Buyers</h5>
+                        <ul>
+                            <li><a href="#">How to Buy</a></li>
+                            <li><a href="#">Payment Options</a></li>
+                            <li><a href="#">Buyer Protection</a></li>
+                            <li><a href="#">Return Policy</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h5>Support</h5>
+                        <ul>
+                            <li><a href="#">Help Center</a></li>
+                            <li><a href="#">Contact Us</a></li>
+                            <li><a href="#">Safety Tips</a></li>
+                            <li><a href="#">Community Guidelines</a></li>
+                        </ul>
+                    </div>
+                    <div class="footer-column">
+                        <h5>Connect</h5>
+                        <ul>
+                            <li><a href="#">Newsletter</a></li>
+                            <li><a href="#">Social Media</a></li>
+                            <li><a href="#">Mobile App</a></li>
+                            <li><a href="#">About Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="footer-bottom">
+                    <p>&copy; 2024 FlexMarket. All rights reserved. | Privacy Policy | Terms of Service</p>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        function fleaMarketApp() {
+            return {
+                searchQuery: '',
+                viewMode: 'grid',
+                priceRange: [0, 1000],
+                showFilters: false,
+                favorites: [],
+                cartItems: 0,
+                sidebarOpen: false,
+                activeMenuItem: 'home',
+                promotedOnly: false,
+
+                setActiveMenu(menuId) {
+                    this.activeMenuItem = menuId;
+                },
+
+                toggleFavorite(itemId) {
+                    if (this.favorites.includes(itemId)) {
+                        this.favorites = this.favorites.filter(id => id !== itemId);
+                    } else {
+                        this.favorites.push(itemId);
+                    }
+                },
+
+                addToCart(itemId) {
+                    this.cartItems++;
+                }
+            }
+        }
+
+        // Initialize Lucide icons after Alpine.js loads
+        document.addEventListener('alpine:init', () => {
+            setTimeout(() => {
+                lucide.createIcons();
+            }, 100);
+        });
+
+        // Re-initialize icons when Alpine updates the DOM
+        document.addEventListener('alpine:updated', () => {
+            lucide.createIcons();
+        });
+    </script>
 </body>
 </html>
