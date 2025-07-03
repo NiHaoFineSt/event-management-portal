@@ -32,8 +32,7 @@
 
                 <!-- Password Field -->
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <div class="password-input">
+                    <label for="password">Password</label>     
                         <input 
                             :type="showPassword ? 'text' : 'password'" 
                             id="password" 
@@ -42,15 +41,7 @@
                             placeholder="Enter your password"
                             required
                         >
-                        <button 
-                            type="button" 
-                            @click="showPassword = !showPassword"
-                            class="password-toggle"
-                        >
-                            <span x-show="!showPassword">👁️</span>
-                            <span x-show="showPassword">🙈</span>
-                        </button>
-                    </div>
+                
                     <span x-show="errors.password" x-text="errors.password" class="error-message"></span>
                 </div>
 
