@@ -1,0 +1,84 @@
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: #241da4;
+    display: flex;
+    flex-direction: column; /* Stacks items vertically */
+    position: fixed;
+    left: 0;
+    top: 0;
+    height: 100vh;
+    box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+}
+
+/* Logout Section (now at the top) */
+.login {
+    /* Padding to position it and align with menu items */
+    padding: 40px 20px 20px 20px;
+    /* Create a gap between Logout and the first menu item */
+    margin-bottom: 50px; 
+}
+
+.login a {
+    color: #fff;
+    text-decoration: none;
+    font-size: 27px;
+    font-family: serif; /* Change font to match image */
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.login a i {
+    margin-right: 15px; /* Consistent spacing */
+    font-size: 18px;
+}
+
+.login a:hover {
+    color: #fff;
+}
+
+/* Menu Section */
+.menu {
+    padding: 0 20px; /* Aligns menu items with the logout link */
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0; 
+}
+
+.menu ul li {
+    margin: 40px 0; /* Increased margin for more space between items */
+}
+
+.menu ul li a {
+    color: #ccc;
+    text-decoration: none;
+    font-size: 27px;
+    font-family: serif; /* Change font to match image */
+    display: flex;
+    align-items: center;
+    transition: color 0.3s;
+}
+
+.menu ul li a i {
+    margin-right: 15px; 
+    font-size: 18px;
+    width: 25px;
+    text-align: center; 
+}
+
+.menu ul li a:hover {
+    color: #fff;
+}
+
+.menu ul li {
+    margin: 30px 0;
+}
+
+/* Add this new rule for the specific gap */
+.menu ul li.extra-gap-bottom {
+    margin-bottom: 60px; /* Increase the bottom margin for more space */
+}
