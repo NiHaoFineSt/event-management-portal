@@ -169,6 +169,65 @@
     font-weight: 600;
   }
   
+  /* Search Styles */
+  .search-container {
+    margin-top: 15px;
+  }
+  
+  .search-box {
+    position: relative;
+    max-width: 400px;
+    display: flex;
+    align-items: center;
+  }
+  
+  .search-input {
+    width: 100%;
+    padding: 12px 50px 12px 15px;
+    border: 2px solid var(--gray);
+    border-radius: 25px;
+    font-size: 16px;
+    outline: none;
+    transition: var(--transition);
+    background-color: var(--white);
+  }
+  
+  .search-input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(36, 29, 164, 0.1);
+  }
+  
+  .search-input::placeholder {
+    color: var(--dark-gray);
+  }
+  
+  .search-btn {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: var(--primary-color);
+    color: var(--white);
+    border: none;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: var(--transition);
+  }
+  
+  .search-btn:hover {
+    background-color: var(--primary-light);
+    transform: translateY(-50%) scale(1.05);
+  }
+  
+  .search-btn i {
+    font-size: 14px;
+  }
+  
   /* Items Grid */
   .items-grid {
     display: grid;
@@ -458,6 +517,27 @@
   
     .booked-items-list {
       grid-template-columns: 1fr;
+    }
+  }
+  
+  /* Update responsive styles for search */
+  @media (max-width: 768px) {
+    .search-box {
+      max-width: 100%;
+    }
+  
+    .search-input {
+      font-size: 14px;
+      padding: 10px 45px 10px 12px;
+    }
+  
+    .search-btn {
+      width: 30px;
+      height: 30px;
+    }
+  
+    .search-btn i {
+      font-size: 12px;
     }
   }
   

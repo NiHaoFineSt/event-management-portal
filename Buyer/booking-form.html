@@ -11,6 +11,7 @@
 <body x-data="{ 
     itemId: null,
     itemName: '',
+    fullName: '',
     phone: '',
     email: '',
     pickupDate: '',
@@ -32,6 +33,11 @@
     validateForm() {
         this.formErrors = {};
         let valid = true;
+        
+        if (!this.fullName || this.fullName.trim().length < 2) {
+            this.formErrors.fullName = 'Please enter your full name (at least 2 characters)';
+            valid = false;
+        }
         
         if (!this.phone || !this.phone.match(/^\d{10}$/)) {
             this.formErrors.phone = 'Please enter a valid 10-digit phone number';
@@ -62,6 +68,7 @@
             const booking = {
                 itemId: this.itemId,
                 itemName: this.itemName,
+                fullName: this.fullName,
                 phone: this.phone,
                 email: this.email,
                 pickupDate: this.pickupDate,
@@ -94,6 +101,12 @@
                     <h2 x-text="itemName"></h2>
                 </div>
                 
+                <div class="form-group">
+                    <label for="fullName">Full Name</label>
+                    <input type="text" id="fullName" x-model="fullName" placeholder="Enter your full name">
+                    <p class="error-message" x-show="formErrors.fullName" x-text="formErrors.fullName"></p>
+                </div>
+
                 <div class="form-group">
                     <label for="phone">Phone Number</label>
                     <input type="tel" id="phone" x-model="phone" placeholder="Enter your phone number">

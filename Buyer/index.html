@@ -10,6 +10,7 @@
 </head>
 <body x-data="{ 
     sidebarOpen: true,
+    searchQuery: '',
     items: [
         { id: 1, name: 'Vintage Record Player', category: 'Electronics', location: 'Hall A', price: '$45', image: 'https://placeholder.svg?height=150&width=200' },
         { id: 2, name: 'Antique Wooden Chair', category: 'Furniture', location: 'Hall B', price: '$60', image: 'https://placeholder.svg?height=150&width=200' },
@@ -28,7 +29,8 @@
         return this.items.filter(item => {
             const categoryMatch = this.selectedCategory === 'All' || item.category === this.selectedCategory;
             const locationMatch = this.selectedLocation === 'All' || item.location === this.selectedLocation;
-            return categoryMatch && locationMatch;
+            const searchMatch = this.searchQuery === '' || item.name.toLowerCase().includes(this.searchQuery.toLowerCase());
+            return categoryMatch && locationMatch && searchMatch;
         });
     },
     
@@ -88,6 +90,17 @@
         <div class="main-content">
             <div class="header">
                 <h1>Available Items</h1>
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" 
+                               x-model="searchQuery" 
+                               placeholder="Search items..." 
+                               class="search-input">
+                        <button class="search-btn">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             
             <div class="items-grid">
