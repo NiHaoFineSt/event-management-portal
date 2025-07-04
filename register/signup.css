@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background: linear-gradient(135deg, #241da4 0%, #1e40af 50%, #3b82f6 100%);
+    background-image: url('fleamarket.jpeg');
     min-height: 100vh;
     display: flex;
     align-items: center;

@@ -61,6 +61,7 @@
                     class="submit-btn"
                     :disabled="loading"
                     :class="{'loading': loading}"
+                    @click="loading = true; setTimeout(() => { window.location.href = '../homepage/homepage.html'; }, 2000)"
                 >
                     <span x-show="!loading">Sign In</span>
                     <span x-show="loading">Signing In...</span>
