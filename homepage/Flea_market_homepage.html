@@ -13,11 +13,19 @@
       background-color: var(--primary);
     }
     .text-primary {
-      color: var(--primary);
+      color: black;
     }
     .border-primary {
       border-color: var(--primary);
     }
+    .hero-section {
+      background-image: url('fleamarket1.jpeg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-color: rgba(0, 0, 0, 0.4); /* optional for overlay effect */
+    }
+
   </style>
 </head>
 <body class="text-gray-800 font-sans">
@@ -27,23 +35,24 @@
     <div class="container mx-auto flex justify-between items-center py-4 px-6">
       <h1 class="text-2xl font-bold">FleaMarket</h1>
       <nav class="space-x-6 text-sm">
-        <a href="#" class="hover:underline">Home</a>
+        <a href="../homepage/Flea_market_homepage.html" class="hover:underline">Home</a>
         <a href="#" class="hover:underline">Vendors</a>
         <a href="#" class="hover:underline">Events</a>
-        <a href="#" class="hover:underline">Login</a>
-        <a href="#" class="hover:underline">Register</a>
+        <a href="../register/login.html" class="hover:underline">Login</a>
+        <a href="../register/signup.html" class="hover:underline">Register</a>
       </nav>
     </div>
   </header>
 
   <!-- Hero Section -->
-  <section class="bg-gray-100 py-20 px-6">
+  <section class="hero-section py-20 px-6">
     <div class="container mx-auto text-center">
       <h2 class="text-4xl font-bold mb-4 text-primary">Discover Local Treasures</h2>
-      <p class="text-lg text-gray-600 mb-6">Join the community at Malaysia's most vibrant flea market platform.</p>
+      <p class="bg-primary text-white py-3 px-6 rounded shadow">Join the community at Malaysia's most vibrant flea market platform.</p>
       <a href="#features" class="bg-primary text-white py-3 px-6 rounded shadow hover:bg-indigo-800 transition">Explore Now</a>
     </div>
   </section>
+
 
   <!-- Features Section -->
   <section id="features" class="py-16 px-6 bg-white">
