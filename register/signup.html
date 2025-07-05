@@ -93,16 +93,24 @@
                     <span x-show="errors.confirmPassword" x-text="errors.confirmPassword" class="error-message"></span>
                 </div>
 
+                <div class="form-group">
+                    <label>
+                        <input type="checkbox" x-model="form.agreeToTerms">
+                            I agree to the terms and conditions
+                    </label>
+                    <span x-show="errors.agreeToTerms" x-text="errors.agreeToTerms" class="error-message"></span>
+                </div>
                 <!-- Submit Button -->
                 <button 
                     type="submit" 
                     class="submit-btn"
                     :disabled="loading"
                     :class="{'loading': loading}"
-                >
-                    <span x-show="!loading">Create Account <a href="login.html"></a></span>
-                    <span x-show="loading">Creating Account...</span>
+                    >
+                    <span x-show="!loading" x-cloak>Create Account</span>
+                    <span x-show="loading" x-cloak>Creating Account...</span>
                 </button>
+
 
                 <!-- Success/Error Messages -->
                 <div x-show="message" class="message" :class="messageType">
@@ -192,7 +200,7 @@
                     
                     return Object.keys(this.errors).length === 0;
                 },
-
+                
                 async handleSignup() {
                     if (!this.validateForm()) return;
                     
@@ -207,17 +215,18 @@
                         this.message = 'Account created successfully! Please check your email to verify your account.';
                         this.messageType = 'success';
                         
-                        // Reset form after success
+                        this.form = {
+                            firstName: '',
+                            lastName: '',
+                            email: '',
+                            password: '',
+                            confirmPassword: '',
+                            agreeToTerms: false
+                        };
+
                         setTimeout(() => {
-                            this.form = {
-                                firstName: '',
-                                lastName: '',
-                                email: '',
-                                password: '',
-                                confirmPassword: '',
-                                agreeToTerms: false
-                            };
-                        }, 2000);
+            window.location.href = 'login.html';
+        }, 1500);
                         
                     } catch (error) {
                         this.message = 'An error occurred. Please try again.';

@@ -56,15 +56,28 @@
                 </div>
 
                 <!-- Submit Button -->
+
+                <div class="form-group">
+                    <label for="role">Login as:</label>
+                    <select id="role" x-model="form.role" required>
+                        <option value="">Select Role</option>
+                        <option value="seller">Seller</option>
+                        <option value="customer">Customer</option>
+                        <option value="admin">Admin</option>
+                    </select>
+                </div>
+
+
                 <button 
                     type="submit" 
                     class="submit-btn"
                     :disabled="loading"
                     :class="{'loading': loading}"
-                >
+                    >
                     <span x-show="!loading">Sign In</span>
                     <span x-show="loading">Signing In...</span>
                 </button>
+
 
                 <!-- Success/Error Messages -->
                 <div x-show="message" class="message" :class="messageType">
@@ -85,7 +98,8 @@
                 form: {
                     email: '',
                     password: '',
-                    remember: false
+                    remember: false,
+                    role: ''
                 },
                 errors: {},
                 loading: false,
@@ -108,30 +122,37 @@
                         this.errors.password = 'Password must be at least 6 characters';
                     }
                     
+                    if (!this.form.role) {
+                        this.errors.role = 'Please select a role';
+                    }
+
                     return Object.keys(this.errors).length === 0;
                 },
 
                 async handleLogin() {
                     if (!this.validateForm()) return;
-                    
+
                     this.loading = true;
                     this.message = '';
-                    
+
                     try {
-                        // Simulate API call
                         await new Promise(resolve => setTimeout(resolve, 1500));
-                        
-                        // Simulate success/error
-                        if (this.form.email === 'test@example.com' && this.form.password === 'password') {
-                            this.message = 'Login successful! Redirecting...';
-                            this.messageType = 'success';
-                            setTimeout(() => {
-                                window.location.href = 'dashboard.html';
-                            }, 1000);
-                        } else {
-                            this.message = 'Invalid email or password';
-                            this.messageType = 'error';
-                        }
+
+                        // Instead of checking for specific email/password, just show success
+                        this.message = 'Login successful! Redirecting...';
+                        this.messageType = 'success';
+
+                        setTimeout(() => {
+                           if (this.form.role === 'seller') {
+                                window.location.href = '../seller/Dashboard seller.html';
+                                } else if (this.form.role === 'customer') {
+                                    window.location.href = '../Buyer/index.html';
+                                } else if (this.form.role === 'admin') {
+                                    window.location.href = '../Admin/dashboard.html';
+                                } 
+                                
+                        }, 1000);
+
                     } catch (error) {
                         this.message = 'An error occurred. Please try again.';
                         this.messageType = 'error';
@@ -139,6 +160,7 @@
                         this.loading = false;
                     }
                 }
+
             }
         }
     </script>
