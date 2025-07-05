@@ -1,0 +1,208 @@
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f8fafc;
+    color: #2d3748;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* Demo Content */
+.demo-content {
+    flex: 1;
+    padding: 60px 20px;
+    text-align: center;
+}
+
+.demo-content h1 {
+    font-size: 36px;
+    margin-bottom: 16px;
+    color: #2d3748;
+}
+
+.demo-content p {
+    font-size: 18px;
+    color: #718096;
+}
+
+/* Simple Footer */
+.simple-footer {
+    background: linear-gradient(135deg, #4c51bf 0%, #553c9a 50%, #6b46c1 100%);
+    color: white;
+    padding: 24px 0 16px;
+    margin-top: auto;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Main Footer Content */
+.footer-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+/* Company Brand */
+.footer-brand h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0;
+    color: white;
+}
+
+/* Navigation Links */
+.footer-nav {
+    display: flex;
+    gap: 32px;
+    align-items: center;
+}
+
+.footer-nav a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    white-space: nowrap;
+}
+
+.footer-nav a:hover {
+    color: white;
+}
+
+/* Social Media Icons */
+.footer-social {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+}
+
+.social-link {
+    width: 36px;
+    height: 36px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.2);
+    transform: translateY(-1px);
+}
+
+.social-link svg {
+    width: 18px;
+    height: 18px;
+}
+
+/* Copyright */
+.footer-copyright {
+    text-align: center;
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    padding-top: 16px;
+}
+
+.footer-copyright p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+    margin: 0;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .footer-main {
+        flex-direction: column;
+        text-align: center;
+        gap: 24px;
+    }
+    
+    .footer-nav {
+        gap: 20px;
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .footer-social {
+        justify-content: center;
+    }
+    
+    .footer-container {
+        padding: 0 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .footer-nav {
+        gap: 16px;
+        flex-direction: column;
+    }
+    
+    .footer-nav a {
+        font-size: 13px;
+    }
+    
+    .footer-brand h3 {
+        font-size: 18px;
+    }
+    
+    .social-link {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .social-link svg {
+        width: 16px;
+        height: 16px;
+    }
+    
+    .simple-footer {
+        padding: 20px 0 12px;
+    }
+}
+
+/* Focus states for accessibility */
+.footer-nav a:focus,
+.social-link:focus {
+    outline: 2px solid rgba(255, 255, 255, 0.5);
+    outline-offset: 2px;
+    border-radius: 4px;
+}
+
+/* Smooth transitions */
+.footer-nav a,
+.social-link {
+    transition: all 0.3s ease;
+}
+
+/* Ensure footer stays at bottom */
+html, body {
+    height: 100%;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+}
+
+.demo-content {
+    flex: 1;
+}
