@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Flea Market - Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #241da4;
+    }
+    .bg-primary {
+      background-color: var(--primary);
+    }
+    .text-primary {
+      color: black;
+    }
+    .custom-outline {
+      color: white;
+      text-shadow:
+      -2px -2px 0 black,
+       2px -2px 0 black,
+      -2px  2px 0 black,
+       2px  2px 0 black,
+      -2px  0px 0 black,
+       2px  0px 0 black,
+       0px -2px 0 black,
+       0px  2px 0 black;
+    }
+  </style>
+</head>
+<body class="text-gray-800 font-sans flex flex-col min-h-screen">
+
+  <div class="flex flex-1">
+    <!-- Sidebar -->
+    <aside class="w-64 bg-primary text-white min-h-screen px-6 py-8">
+      <h2 class="text-2xl font-bold mb-8">FleaMarket</h2>
+      <nav class="space-y-4 text-sm">
+        <a href="../homepage/homepage.html" class="block hover:underline">Home</a>
+        <a href="../register/login.html" class="block hover:underline">Login</a>
+        <a href="../register/signup.html" class="block hover:underline">Register</a>
+        <a href="#about" class="block hover:underline">About Us</a>
+      </nav>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1">
+      <!-- Hero Section -->
+      <section class="hero-section py-20 px-6" style="background-image: url('fleamarket1.jpeg'); background-size: cover; background-position: center;">
+        <div class="max-w-4xl mx-auto text-center">
+          <h2 class="text-4xl font-bold mb-4 custom-outline">Discover Local Treasures</h2>
+          <p class="bg-primary text-white py-3 px-6 rounded shadow">Join the community at Malaysia's most vibrant flea market platform.</p><br>
+          <a href="#features" class="bg-primary text-white py-3 px-6 rounded shadow hover:bg-indigo-800 transition">Explore Now</a>
+        </div>
+      </section>
+
+      <!-- Features Section -->
+      <section id="features" class="py-16 px-6 bg-white">
+        <div class="max-w-6xl mx-auto text-center">
+          <h3 class="text-3xl font-semibold text-primary mb-12">Why Choose FleaMarket?</h3>
+          <div class="grid md:grid-cols-3 gap-8 text-left">
+            <div class="p-6 border rounded-lg shadow-sm hover:shadow-lg transition">
+              <h4 class="text-xl font-bold mb-2 text-primary">Local Vendors</h4>
+              <p>Support small businesses and discover unique handmade, vintage, and one-of-a-kind items.</p>
+            </div>
+            <div class="p-6 border rounded-lg shadow-sm hover:shadow-lg transition">
+              <h4 class="text-xl font-bold mb-2 text-primary">Event Listings</h4>
+              <p>Stay updated with upcoming flea markets, pop-up events, and community gatherings.</p>
+            </div>
+            <div class="p-6 border rounded-lg shadow-sm hover:shadow-lg transition">
+              <h4 class="text-xl font-bold mb-2 text-primary">Easy Booking</h4>
+              <p>Register as a vendor, book stalls, and manage your listings with our intuitive platform.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- About Section -->
+      <section id="about" class="bg-gray-100 py-12 px-6">
+        <div class="max-w-4xl mx-auto text-center">
+          <h3 class="text-2xl font-bold text-primary mb-4">About Us</h3>
+          <p class="text-gray-700">FleaMarket is a digital platform dedicated to bringing together local vendors and customers through curated events and easy booking systems. Our mission is to support entrepreneurship and community connections through meaningful marketplace experiences.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white">
+    <div class="max-w-6xl mx-auto px-6 py-6 border-t border-gray-700">
+      <div class="flex flex-wrap justify-between items-center text-sm">
+        <div class="font-bold text-lg mb-2">FleaMarket</div>
+        <div class="space-x-4 mb-2">
+          <a href="#" class="hover:underline">Privacy Policy</a>
+          <a href="#" class="hover:underline">Terms</a>
+          <a href="#" class="hover:underline">Contact</a>
+        </div>
+        <div class="space-x-4 text-lg mb-2">
+          <a href="#" class="hover:text-blue-400"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="hover:text-blue-600"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="hover:text-pink-500"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="text-center text-gray-400 mt-4 text-xs">
+        &copy; 2025 FleaMarket. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>
+
+

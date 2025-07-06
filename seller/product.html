@@ -1,140 +1,245 @@
 <!DOCTYPE html>
-<html lang="en" x-data="{ sidebarOpen: false }">
-  <head>
-    <meta charset="UTF-8">
-    <title>Products - Seller Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js" defer></script>
-    <style>
-        body {
-            font-family: 'Segoe UI', sans-serif;
-        }
+<html lang="en" x-data="productApp()">
+<head>
+  <meta charset="UTF-8">
+  <title>Products - Seller Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.0/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-        .sidebar {
-            min-height: 100vh;
-            background-color: #241da4;
-            color: white;
-        }
+    .container-fluid {
+      flex: 1;
+    }
 
-        .sidebar a {
-            color: #adb5bd;
-            text-decoration: none;
-        }
+    .sidebar {
+      min-height: 100vh;
+      background-color: #241da4;
+      color: white;
+    }
 
-        .sidebar a:hover {
-            color: #fff;
-        }
+    .sidebar a {
+      color: #adb5bd;
+      text-decoration: none;
+    }
 
-        .table thead tr th{
-          background-color: #2d25a0;
-          color: white;
-        }
-    </style>
-  </head>
-  <body>
-    <div class="container-fluid">
-      <div class="row">
-        <!-- Sidebar -->
-        <nav class="col-md-2 d-none d-md-block sidebar py-4 px-3">
-            <h4 class="text-white mb-4">Seller Panel</h4>
-            <ul class="nav flex-column">
-                <li class="nav-item mb-2">
-                    <a class="nav-link" href="Dashboard seller.html">Dashboard</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link" href="orders.html">Booking</a>
-                </li>
-                <li class="nav-item mb-2">
-                    <a class="nav-link" href="product layout.html">Products</a>
-                </li>
-                <li>
-                  <a class="nav-link" href="../register/login.html">Log out</a>
-                </li>
-            </ul>
-        </nav>
+    .sidebar a:hover {
+      color: #fff;
+    }
 
-        <!-- Content -->
-        <main class="col-md-10 ms-sm-auto px-md-4">
-          <div class="d-flex justify-content-between align-items-center py-3">
-            <h2>Product List</h2>
-            <button class="btn btn-success" @click="showForm = !showForm">+ Add Product</button>
+    .table thead tr th {
+      background-color: #2d25a0;
+      color: white;
+    }
+
+    footer.simple-footer {
+      background-color: #1a1a1a;
+      color: #fff;
+      padding: 30px 20px 10px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #333;
+      padding-bottom: 15px;
+    }
+
+    .footer-brand h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .footer-nav a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+      color: #fff;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social a {
+      color: #ccc;
+      font-size: 18px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .footer-copyright {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #999;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container-fluid">
+  <div class="row">
+    <!-- Sidebar -->
+    <nav class="col-md-2 d-none d-md-block sidebar py-4 px-3">
+      <h4 class="text-white mb-4">Seller Panel</h4>
+      <ul class="nav flex-column">
+        <li class="nav-item mb-2">
+          <a class="nav-link" href="#">Dashboard</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link" href="#">Booking</a>
+        </li>
+        <li class="nav-item mb-2">
+          <a class="nav-link" href="#">Products</a>
+        </li>
+        <li>
+          <a class="nav-link" href="#">Log out</a>
+        </li>
+      </ul>
+    </nav>
+
+    <!-- Content -->
+    <main class="col-md-10 ms-sm-auto px-md-4">
+      <div class="d-flex justify-content-between align-items-center py-3">
+        <h2>Product List</h2>
+        <button class="btn btn-success" @click="showForm = !showForm">+ Add Product</button>
+      </div>
+
+      <!-- Add Product Form -->
+      <div x-show="showForm" class="card p-3 mb-4">
+        <form @submit.prevent="addProduct">
+          <div class="row">
+            <div class="col-md-3 mb-2">
+              <label class="form-label">Product ID</label>
+              <input type="text" class="form-control" x-model="newProduct.id" required>
+            </div>
+            <div class="col-md-3 mb-2">
+              <label class="form-label">Name</label>
+              <input type="text" class="form-control" x-model="newProduct.name" required>
+            </div>
+            <div class="col-md-3 mb-2">
+              <label class="form-label">Stock</label>
+              <input type="number" class="form-control" x-model="newProduct.stock" required>
+            </div>
+            <div class="col-md-3 mb-2">
+              <label class="form-label">Price (RM)</label>
+              <input type="number" step="0.01" class="form-control" x-model="newProduct.price" required>
+            </div>
+            <div class="col-12 mt-2">
+              <button type="submit" class="btn btn-primary">Save Product</button>
+            </div>
           </div>
+        </form>
+      </div>
 
-          <!-- Add Product Form -->
-          <div x-show="showForm" class="card p-3 mb-4">
-            <form>
-              <div class="row">
-                <div class="col-md-6 mb-2">
-                  <label class="form-label">Product Name</label>
-                  <input type="text" class="form-control">
-                </div>
-                <div class="col-md-6 mb-2">
-                  <label class="form-label">Price</label>
-                  <input type="number" class="form-control">
-                </div>
-                <div class="col-md-12 mb-2">
-                  <label class="form-label">Description</label>
-                  <textarea class="form-control" rows="2"></textarea>
-                </div>
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary">Save Product</button>
-                </div>
-              </div>
-            </form>
-          </div>
+      <!-- Product Table -->
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Product ID</th>
+            <th>Name</th>
+            <th>Stock</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <template x-for="(product, index) in products" :key="product.id">
+            <tr>
+              <td x-text="product.id"></td>
+              <td x-text="product.name"></td>
+              <td x-text="product.stock"></td>
+              <td x-text="'RM' + parseFloat(product.price).toFixed(2)"></td>
+              <td>
+                <button class="btn btn-sm btn-outline-danger" @click="deleteProduct(index)">Delete</button>
+              </td>
+            </tr>
+          </template>
+        </tbody>
+      </table>
+    </main>
+  </div>
+</div>
 
-          <!-- Product Table -->
-          <table class="table table-hover">
-            <thead class="table-dark">
-              <tr>
-                <th>Product ID</th>
-                <th>Name</th>
-                <th>Stock</th>
-                <th>Price</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td>#P1001</td>
-                <td>Playdough Set</td>
-                <td>35</td>
-                <td>RM19.99</td>
-                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
-              </tr>
-              <tr>
-                <td>#P1002</td>
-                <td>Building Blocks</td>
-                <td>20</td>
-                <td>RM34.50</td>
-                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
-              </tr>
-              <tr>
-                <td>#P1003</td>
-                <td>Puzzle 3000PCS</td>
-                <td>5</td>
-                <td>RM35.00</td>
-                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
-              </tr>
-              <tr>
-                <td>#P1004</td>
-                <td>Puzzle 1000PCS</td>
-                <td>30</td>
-                <td>RM10.00</td>
-                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
-              </tr>
-              <tr>
-                <td>#P1005</td>
-                <td>RC Control Car</td>
-                <td>25</td>
-                <td>RM50.50</td>
-                <td><button class="btn btn-sm btn-outline-danger">Delete</button></td>
-              </tr>
-            </tbody>
-          </table>
-        </main>
+<!-- Footer -->
+<footer class="simple-footer mt-auto">
+  <div class="footer-container">
+    <div class="footer-main">
+      <div class="footer-brand">
+        <h3>Flea Market</h3>
+      </div>
+      <div class="footer-nav">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact</a>
+        <a href="#">About</a>
+      </div>
+      <div class="footer-social">
+        <a href="#"><i class="fab fa-twitter"></i></a>
+        <a href="#"><i class="fab fa-facebook"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
       </div>
     </div>
-  </body>
+    <div class="footer-copyright">
+      &copy; 2025 Flea Market. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+  function productApp() {
+    return {
+      showForm: false,
+      newProduct: { id: '', name: '', stock: '', price: '' },
+      products: [
+        { id: '#P1001', name: 'Playdough Set', stock: 35, price: 19.99 },
+        { id: '#P1002', name: 'Building Blocks', stock: 20, price: 34.50 },
+        { id: '#P1003', name: 'Puzzle 3000PCS', stock: 5, price: 35.00 },
+        { id: '#P1004', name: 'Puzzle 1000PCS', stock: 30, price: 10.00 },
+        { id: '#P1005', name: 'RC Control Car', stock: 25, price: 50.50 },
+      ],
+      addProduct() {
+        this.products.push({ ...this.newProduct });
+        this.newProduct = { id: '', name: '', stock: '', price: '' };
+        this.showForm = false;
+      },
+      deleteProduct(index) {
+        this.products.splice(index, 1);
+      }
+    }
+  }
+</script>
+
+</body>
 </html>
