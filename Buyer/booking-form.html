@@ -1,12 +1,82 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Book Item - Flea Market</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Item - Flea Market</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+  />
+  <style>
+    footer {
+      background-color: black;
+      color: white;
+      padding: 20px 40px 10px;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #444;
+      padding-bottom: 15px;
+    }
+
+    .footer-brand h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-nav a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+      color: #fff;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social a {
+      color: #ccc;
+      font-size: 18px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .footer-copy {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #999;
+    }
+  </style>
 </head>
 <body x-data="{ 
     itemId: null,
@@ -17,123 +87,138 @@
     pickupDate: '',
     pickupTime: '',
     formErrors: {},
-    
-    init() {
-        // Get URL parameters
-        const urlParams = new URLSearchParams(window.location.search);
-        this.itemId = urlParams.get('itemId');
-        this.itemName = urlParams.get('itemName') || 'Unknown Item';
-        
-        // Set default date to tomorrow
-        const tomorrow = new Date();
-        tomorrow.setDate(tomorrow.getDate() + 1);
-        this.pickupDate = tomorrow.toISOString().split('T')[0];
-    },
-    
-    validateForm() {
-        this.formErrors = {};
-        let valid = true;
-        
-        if (!this.fullName || this.fullName.trim().length < 2) {
-            this.formErrors.fullName = 'Please enter your full name (at least 2 characters)';
-            valid = false;
-        }
-        
-        if (!this.phone || !this.phone.match(/^\d{10}$/)) {
-            this.formErrors.phone = 'Please enter a valid 10-digit phone number';
-            valid = false;
-        }
-        
-        if (!this.email || !this.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
-            this.formErrors.email = 'Please enter a valid email address';
-            valid = false;
-        }
-        
-        if (!this.pickupDate) {
-            this.formErrors.pickupDate = 'Please select a pickup date';
-            valid = false;
-        }
-        
-        if (!this.pickupTime) {
-            this.formErrors.pickupTime = 'Please select a pickup time';
-            valid = false;
-        }
-        
-        return valid;
-    },
-    
-    submitForm() {
-        if (this.validateForm()) {
-            // Create booking object
-            const booking = {
-                itemId: this.itemId,
-                itemName: this.itemName,
-                fullName: this.fullName,
-                phone: this.phone,
-                email: this.email,
-                pickupDate: this.pickupDate,
-                pickupTime: this.pickupTime
-            };
-            
-            // Get existing bookings or initialize empty array
-            let bookedItems = JSON.parse(localStorage.getItem('bookedItems') || '[]');
-            
-            // Add new booking
-            bookedItems.push(booking);
-            
-            // Save to localStorage
-            localStorage.setItem('bookedItems', JSON.stringify(bookedItems));
-            
-            // Redirect to booked items page
-            window.location.href = 'booked-items.html';
-        }
-    }
-}">
-    <div class="booking-page">
-        <div class="booking-container">
-            <div class="booking-header">
-                <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Items</a>
-                <h1>Book Item</h1>
-            </div>
-            
-            <div class="booking-form">
-                <div class="form-item-details">
-                    <h2 x-text="itemName"></h2>
-                </div>
-                
-                <div class="form-group">
-                    <label for="fullName">Full Name</label>
-                    <input type="text" id="fullName" x-model="fullName" placeholder="Enter your full name">
-                    <p class="error-message" x-show="formErrors.fullName" x-text="formErrors.fullName"></p>
-                </div>
 
-                <div class="form-group">
-                    <label for="phone">Phone Number</label>
-                    <input type="tel" id="phone" x-model="phone" placeholder="Enter your phone number">
-                    <p class="error-message" x-show="formErrors.phone" x-text="formErrors.phone"></p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address</label>
-                    <input type="email" id="email" x-model="email" placeholder="Enter your email address">
-                    <p class="error-message" x-show="formErrors.email" x-text="formErrors.email"></p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="pickupDate">Pickup Date</label>
-                    <input type="date" id="pickupDate" x-model="pickupDate">
-                    <p class="error-message" x-show="formErrors.pickupDate" x-text="formErrors.pickupDate"></p>
-                </div>
-                
-                <div class="form-group">
-                    <label for="pickupTime">Pickup Time</label>
-                    <input type="time" id="pickupTime" x-model="pickupTime">
-                    <p class="error-message" x-show="formErrors.pickupTime" x-text="formErrors.pickupTime"></p>
-                </div>
-                
-                <button onclick="window.location.href='booking-items.html'" class="submit-btn">Book Now</button>
-            </div>
+    init() {
+      const urlParams = new URLSearchParams(window.location.search);
+      this.itemId = urlParams.get('itemId');
+      this.itemName = urlParams.get('itemName') || 'Unknown Item';
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      this.pickupDate = tomorrow.toISOString().split('T')[0];
+    },
+
+    validateForm() {
+      this.formErrors = {};
+      let valid = true;
+
+      if (!this.fullName || this.fullName.trim().length < 2) {
+        this.formErrors.fullName = 'Please enter your full name (at least 2 characters)';
+        valid = false;
+      }
+
+      if (!this.phone || !this.phone.match(/^(\+?60)?1[0-9]{8,9}$/)) {
+        this.formErrors.phone = 'Please enter a valid Malaysian phone number';
+        valid = false;
+      }
+
+      if (!this.email || !this.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+        this.formErrors.email = 'Please enter a valid email address';
+        valid = false;
+      }
+
+      if (!this.pickupDate) {
+        this.formErrors.pickupDate = 'Please select a pickup date';
+        valid = false;
+      }
+
+      if (!this.pickupTime) {
+        this.formErrors.pickupTime = 'Please select a pickup time';
+        valid = false;
+      }
+
+      return valid;
+    },
+
+    submitForm() {
+      if (this.validateForm()) {
+        const booking = {
+          itemId: this.itemId,
+          itemName: this.itemName,
+          fullName: this.fullName,
+          phone: this.phone,
+          email: this.email,
+          pickupDate: this.pickupDate,
+          pickupTime: this.pickupTime
+        };
+
+        let bookedItems = JSON.parse(localStorage.getItem('bookedItems') || '[]');
+        bookedItems.push(booking);
+        localStorage.setItem('bookedItems', JSON.stringify(bookedItems));
+        window.location.href = 'booked-items.html';
+      }
+    }
+}" x-init="init()">
+
+  <div class="booking-page">
+    <div class="booking-container">
+      <div class="booking-header">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Items</a>
+        <h1>Book Item</h1>
+      </div>
+
+      <div class="booking-form">
+        <div class="form-item-details">
+          <h2 x-text="itemName"></h2>
         </div>
+
+        <div class="form-group">
+          <label for="fullName">Full Name</label>
+          <input type="text" id="fullName" x-model="fullName" placeholder="Enter your full name">
+          <p class="error-message" x-show="formErrors.fullName" x-text="formErrors.fullName"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="phone">Phone Number</label>
+          <input type="tel" id="phone" x-model="phone" placeholder="Enter your phone number">
+          <p class="error-message" x-show="formErrors.phone" x-text="formErrors.phone"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input type="email" id="email" x-model="email" placeholder="Enter your email address">
+          <p class="error-message" x-show="formErrors.email" x-text="formErrors.email"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupDate">Pickup Date</label>
+          <input type="date" id="pickupDate" x-model="pickupDate">
+          <p class="error-message" x-show="formErrors.pickupDate" x-text="formErrors.pickupDate"></p>
+        </div>
+
+        <div class="form-group">
+          <label for="pickupTime">Pickup Time</label>
+          <input type="time" id="pickupTime" x-model="pickupTime">
+          <p class="error-message" x-show="formErrors.pickupTime" x-text="formErrors.pickupTime"></p>
+        </div>
+
+        <button @click.prevent="submitForm" class="submit-btn">Book Now</button>
+      </div>
     </div>
+  </div>
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h3>Flea Market</h3>
+        </div>
+        <div class="footer-nav">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+          <a href="#">About</a>
+        </div>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-copy">
+        &copy; 2025 Flea Market. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
 </body>
 </html>
