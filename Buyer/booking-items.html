@@ -1,87 +1,112 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Booked Items - Flea Market</title>
-    <link rel="stylesheet" href="styles.css">
-    <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booked Items - Flea Market</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <link rel="stylesheet" href="footer.css">
 </head>
 <body x-data="{ 
     sidebarOpen: true,
     bookedItems: [],
-    
+
     init() {
-        // Load booked items from localStorage
         const storedItems = localStorage.getItem('bookedItems');
         if (storedItems) {
             this.bookedItems = JSON.parse(storedItems);
         }
     },
-    
+
     cancelBooking(index) {
         this.bookedItems.splice(index, 1);
         localStorage.setItem('bookedItems', JSON.stringify(this.bookedItems));
     }
-}">
-    <div class="dashboard">
-        <!-- Sidebar -->
-        <div class="sidebar" :class="{ 'collapsed': !sidebarOpen }">
-            <div class="sidebar-header">
-                <h2>Flea Market</h2>
-                <button @click="sidebarOpen = !sidebarOpen" class="toggle-btn">
-                    <i class="fas" :class="sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
-                </button>
-            </div>
-            
-            <div class="sidebar-content">
-                <div class="sidebar-footer">
-                    <a href="index.html" class="booked-items-link">
-                        <i class="fas fa-home"></i>
-                        <span>Back to Home</span>
-                    </a>
-                </div>
-            </div>
-        </div>-->
-        
-        <!-- Main Content -->
-        <div class="main-content">
-            <div class="header">
-                <h1>Booked Items</h1>
-            </div>
-            
-            <div class="booked-items-container">
-                <template x-if="bookedItems.length === 0">
-                    <div class="empty-state">
-                        <i class="fas fa-bookmark empty-icon"></i>
-                        <p>You haven't booked any items yet.</p>
-                        <a href="index.html" class="back-btn">Browse Items</a>
-                    </div>
-                </template>
-                
-                <template x-if="bookedItems.length > 0">
-                    <div class="booked-items-list">
-                        <template x-for="(booking, index) in bookedItems" :key="index">
-                            <div class="booked-item">
-                                <div class="booked-item-details">
-                                    <h3 x-text="booking.itemName"></h3>
-                                    <p><strong>Name:</strong> <span x-text="booking.fullName"></span></p>
-                                    <p><strong>Pickup Date:</strong> <span x-text="booking.pickupDate"></span></p>
-                                    <p><strong>Pickup Time:</strong> <span x-text="booking.pickupTime"></span></p>
-                                    <p><strong>Contact:</strong> <span x-text="booking.phone"></span></p>
-                                    <p><strong>Email:</strong> <span x-text="booking.email"></span></p>
-                                </div>
-                                <button @click="cancelBooking(index)" class="cancel-btn">
-                                    <i class="fas fa-times"></i> Cancel Booking
-                                </button>
-                            </div>
-                        </template>
-                    </div>
-                </template>
-            </div>
+}" x-init="init()">
+
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar" :class="{ 'collapsed': !sidebarOpen }">
+      <div class="sidebar-header">
+        <h2>Flea Market</h2>
+        <button @click="sidebarOpen = !sidebarOpen" class="toggle-btn">
+          <i class="fas" :class="sidebarOpen ? 'fa-chevron-left' : 'fa-chevron-right'"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-footer">
+          <a href="index.html" class="booked-items-link">
+            <i class="fas fa-home"></i>
+            <span>Back to Home</span>
+          </a>
         </div>
+      </div>
     </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <h1>Booked Items</h1>
+      </div>
+
+      <div class="booked-items-container">
+        <template x-if="bookedItems.length === 0">
+          <div class="empty-state">
+            <i class="fas fa-bookmark empty-icon"></i>
+            <p>You haven't booked any items yet.</p>
+            <a href="index.html" class="back-btn">Browse Items</a>
+          </div>
+        </template>
+
+        <template x-if="bookedItems.length > 0">
+          <div class="booked-items-list">
+            <template x-for="(booking, index) in bookedItems" :key="index">
+              <div class="booked-item">
+                <div class="booked-item-details">
+                  <h3 x-text="booking.itemName"></h3>
+                  <p><strong>Name:</strong> <span x-text="booking.fullName"></span></p>
+                  <p><strong>Pickup Date:</strong> <span x-text="booking.pickupDate"></span></p>
+                  <p><strong>Pickup Time:</strong> <span x-text="booking.pickupTime"></span></p>
+                  <p><strong>Contact:</strong> <span x-text="booking.phone"></span></p>
+                  <p><strong>Email:</strong> <span x-text="booking.email"></span></p>
+                </div>
+                <button @click="cancelBooking(index)" class="cancel-btn">
+                  <i class="fas fa-times"></i> Cancel Booking
+                </button>
+              </div>
+            </template>
+          </div>
+        </template>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="simple-footer">
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h3>Flea Market</h3>
+        </div>
+        <div class="footer-nav">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+          <a href="#">About</a>
+        </div>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <p>&copy; 2025 Flea Market. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
 </body>
 </html>

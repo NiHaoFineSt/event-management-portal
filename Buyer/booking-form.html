@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,10 +7,7 @@
   <title>Book Item - Flea Market</title>
   <link rel="stylesheet" href="styles.css" />
   <script src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js" defer></script>
-  <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
-  />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     footer {
       background-color: black;
@@ -144,7 +142,7 @@
         let bookedItems = JSON.parse(localStorage.getItem('bookedItems') || '[]');
         bookedItems.push(booking);
         localStorage.setItem('bookedItems', JSON.stringify(bookedItems));
-        window.location.href = 'booked-items.html';
+        window.location.href = 'booking-items.html';
       }
     }
 }" x-init="init()">
@@ -194,7 +192,8 @@
         <button @click.prevent="submitForm" class="submit-btn">Book Now</button>
       </div>
     </div>
-  </div>
+  </div>-->
+
   <!-- Footer -->
   <footer>
     <div class="footer-container">
