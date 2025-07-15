@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Admin Dashboard - Quick Action Panel</title>
-
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
 
@@ -205,7 +204,6 @@
             </select>
           </div>
           <button type="submit" class="btn btn-primary">Save Event</button>
-            <!--<a href="Event_list_page.html" class="btn btn-primary">Save Event</a>-->
           <a href="Event_list_page.html" class="btn btn-secondary ms-2">View Event List</a>
         </form>
       </div>
@@ -250,7 +248,7 @@
     events.push(newEvent);
     localStorage.setItem("events", JSON.stringify(events));
     alert("Event saved!");
-    window.location.href = "event_list.html";
+    window.location.href = "Event_list_page.html";
   }
 </script>
 </body>
