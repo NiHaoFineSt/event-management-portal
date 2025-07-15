@@ -237,43 +237,48 @@
 
 <script>
   window.onload = function () {
-    displayVendors();
+  displayVendors();
+};
+
+function saveData() {
+  const vendor = {
+    name: document.getElementById('vendorName').value.trim(),
+    contact: document.getElementById('contact').value.trim(),
+    email: document.getElementById('email').value.trim(),
+    category: document.getElementById('category').value,
+    status: document.getElementById('status').value
   };
 
-  function saveData() {
-    const vendor = {
-      name: document.getElementById('vendorName').value,
-      contact: document.getElementById('contact').value,
-      email: document.getElementById('email').value,
-      category: document.getElementById('category').value,
-      status: document.getElementById('status').value
-    };
+  let vendorList = JSON.parse(localStorage.getItem('vendorList')) || [];
+  vendorList.push(vendor);
+  localStorage.setItem('vendorList', JSON.stringify(vendorList));
 
-    let vendorList = JSON.parse(localStorage.getItem('vendorList')) || [];
-    vendorList.push(vendor);
-    localStorage.setItem('vendorList', JSON.stringify(vendorList));
+  document.querySelector('form').reset();
+  displayVendors();
 
-    document.querySelector('form').reset();
-    displayVendors();
-  }
+  // Optional: Redirect to view page only after saving
+  window.location.href = "view_vendor.html";
+}
 
-  function displayVendors() {
-    const tableBody = document.getElementById('vendorTable');
-    if (!tableBody) return;
-    const vendorList = JSON.parse(localStorage.getItem('vendorList')) || [];
-    tableBody.innerHTML = '';
+function displayVendors() {
+  const tableBody = document.getElementById('vendorTable');
+  if (!tableBody) return;
 
-    vendorList.forEach(v => {
-      tableBody.innerHTML += `
-        <tr>
-          <td>${v.name}</td>
-          <td>${v.contact}</td>
-          <td>${v.email}</td>
-          <td>${v.category}</td>
-          <td>${v.status}</td>
-        </tr>`;
-    });
-  }
+  const vendorList = JSON.parse(localStorage.getItem('vendorList')) || [];
+  tableBody.innerHTML = '';
+
+  vendorList.forEach(v => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td>${v.name}</td>
+      <td>${v.contact}</td>
+      <td>${v.email}</td>
+      <td>${v.category}</td>
+      <td>${v.status}</td>
+    `;
+    tableBody.appendChild(row);
+  });
+}
 </script>
 </body>
 </html>
