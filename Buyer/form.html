@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Book Item - Flea Market</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    footer {
+      background-color: black;
+      color: white;
+      padding: 20px 40px 10px;
+      margin-top: 40px;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .footer-main {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      border-bottom: 1px solid #444;
+      padding-bottom: 15px;
+    }
+
+    .footer-brand h3 {
+      font-size: 20px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .footer-nav {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-nav a {
+      color: #ccc;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    .footer-nav a:hover {
+      color: #fff;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social a {
+      color: #ccc;
+      font-size: 18px;
+      transition: color 0.3s ease, transform 0.3s ease;
+    }
+
+    .footer-social a:hover {
+      color: #fff;
+      transform: scale(1.1);
+    }
+
+    .footer-copy {
+      text-align: center;
+      margin-top: 15px;
+      font-size: 13px;
+      color: #999;
+    }
+
+    .error-message {
+      color: red;
+      font-size: 13px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="booking-page">
+    <div class="booking-container">
+      <div class="booking-header">
+        <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Back to Items</a>
+        <h1>Book Item</h1>
+      </div>
+
+      <div class="booking-form">
+        <div class="form-item-details">
+          <h2 id="itemNameHeading">Unknown Item</h2>
+        </div>
+
+        <form id="bookingForm">
+          <div class="form-group">
+            <label for="fullName">Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name">
+            <p class="error-message" id="errorFullName"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" placeholder="Enter your phone number">
+            <p class="error-message" id="errorPhone"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="email">Email Address</label>
+            <input type="email" id="email" placeholder="Enter your email address">
+            <p class="error-message" id="errorEmail"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="pickupDate">Pickup Date</label>
+            <input type="date" id="pickupDate">
+            <p class="error-message" id="errorPickupDate"></p>
+          </div>
+
+          <div class="form-group">
+            <label for="pickupTime">Pickup Time</label>
+            <input type="time" id="pickupTime">
+            <p class="error-message" id="errorPickupTime"></p>
+          </div>
+
+          <button type="submit" class="submit-btn">Book Now</button>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h3>Flea Market</h3>
+        </div>
+        <div class="footer-nav">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+          <a href="#">About</a>
+        </div>
+        <div class="footer-social">
+          <a href="#"><i class="fab fa-twitter"></i></a>
+          <a href="#"><i class="fab fa-facebook"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-copy">
+        &copy; 2025 Flea Market. All rights reserved.
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    window.onload = function () {
+      const urlParams = new URLSearchParams(window.location.search);
+      const itemId = urlParams.get('itemId');
+      const itemName = urlParams.get('itemName') || 'Unknown Item';
+      document.getElementById('itemNameHeading').textContent = itemName;
+
+      const tomorrow = new Date();
+      tomorrow.setDate(tomorrow.getDate() + 1);
+      document.getElementById('pickupDate').value = tomorrow.toISOString().split('T')[0];
+
+      document.getElementById('bookingForm').addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        const fullName = document.getElementById('fullName').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const pickupDate = document.getElementById('pickupDate').value;
+        const pickupTime = document.getElementById('pickupTime').value;
+
+        let isValid = true;
+
+        clearErrors();
+
+        if (fullName.length < 2) {
+          showError('errorFullName', 'Please enter your full name (at least 2 characters)');
+          isValid = false;
+        }
+
+        if (!phone.match(/^(\+?60)?1[0-9]{8,9}$/)) {
+          showError('errorPhone', 'Please enter a valid Malaysian phone number');
+          isValid = false;
+        }
+
+        if (!email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) {
+          showError('errorEmail', 'Please enter a valid email address');
+          isValid = false;
+        }
+
+        if (!pickupDate) {
+          showError('errorPickupDate', 'Please select a pickup date');
+          isValid = false;
+        }
+
+        if (!pickupTime) {
+          showError('errorPickupTime', 'Please select a pickup time');
+          isValid = false;
+        }
+
+        if (isValid) {
+          const booking = {
+            itemId: itemId,
+            itemName: itemName,
+            fullName: fullName,
+            phone: phone,
+            email: email,
+            pickupDate: pickupDate,
+            pickupTime: pickupTime
+          };
+
+          let bookedItems = JSON.parse(localStorage.getItem('bookedItems') || '[]');
+          bookedItems.push(booking);
+          localStorage.setItem('bookedItems', JSON.stringify(bookedItems));
+          window.location.href = 'booking-items.html';
+        }
+      });
+    };
+
+    function showError(id, message) {
+      document.getElementById(id).textContent = message;
+    }
+
+    function clearErrors() {
+      ['errorFullName', 'errorPhone', 'errorEmail', 'errorPickupDate', 'errorPickupTime'].forEach(id => {
+        document.getElementById(id).textContent = '';
+      });
+    }
+  </script>
+</body>
+</html>

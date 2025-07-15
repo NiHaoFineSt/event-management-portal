@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Booked Items - Flea Market</title>
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="footer.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    .collapsed {
+      width: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar" id="sidebar">
+      <div class="sidebar-header">
+        <h2>Flea Market</h2>
+        <button id="toggleSidebar" class="toggle-btn">
+          <i class="fas fa-chevron-left" id="toggleIcon"></i>
+        </button>
+      </div>
+
+      <div class="sidebar-content">
+        <div class="sidebar-footer">
+          <a href="index.html" class="booked-items-link">
+            <i class="fas fa-home"></i>
+            <span>Back to Home</span>
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+      <div class="header">
+        <h1>Booked Items</h1>
+      </div>
+
+      <div class="booked-items-container" id="bookedItemsContainer">
+        <!-- JS will inject content here -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="simple-footer">
+    <div class="footer-container">
+      <div class="footer-main">
+        <div class="footer-brand">
+          <h3>Flea Market</h3>
+        </div>
+        <div class="footer-nav">
+          <a href="#">Privacy Policy</a>
+          <a href="#">Terms of Service</a>
+          <a href="#">Contact</a>
+          <a href="#">About</a>
+        </div>
+        <div class="footer-social">
+          <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+          <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
+          <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+        </div>
+      </div>
+      <div class="footer-copyright">
+        <p>&copy; 2025 Flea Market. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    let sidebarOpen = true;
+
+    const sidebar = document.getElementById('sidebar');
+    const toggleBtn = document.getElementById('toggleSidebar');
+    const toggleIcon = document.getElementById('toggleIcon');
+    const container = document.getElementById('bookedItemsContainer');
+
+    toggleBtn.addEventListener('click', () => {
+      sidebarOpen = !sidebarOpen;
+      sidebar.classList.toggle('collapsed');
+      toggleIcon.className = sidebarOpen ? 'fas fa-chevron-left' : 'fas fa-chevron-right';
+    });
+
+    function loadBookedItems() {
+      const storedItems = localStorage.getItem('bookedItems');
+      const bookedItems = storedItems ? JSON.parse(storedItems) : [];
+
+      container.innerHTML = ''; // Clear existing
+
+      if (bookedItems.length === 0) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-bookmark empty-icon"></i>
+            <p>You haven't booked any items yet.</p>
+            <a href="index.html" class="back-btn">Browse Items</a>
+          </div>
+        `;
+      } else {
+        const listDiv = document.createElement('div');
+        listDiv.className = 'booked-items-list';
+
+        bookedItems.forEach((booking, index) => {
+          const itemDiv = document.createElement('div');
+          itemDiv.className = 'booked-item';
+          itemDiv.innerHTML = `
+            <div class="booked-item-details">
+              <h3>${booking.itemName}</h3>
+              <p><strong>Name:</strong> ${booking.fullName}</p>
+              <p><strong>Pickup Date:</strong> ${booking.pickupDate}</p>
+              <p><strong>Pickup Time:</strong> ${booking.pickupTime}</p>
+              <p><strong>Contact:</strong> ${booking.phone}</p>
+              <p><strong>Email:</strong> ${booking.email}</p>
+            </div>
+            <button class="cancel-btn" onclick="cancelBooking(${index})">
+              <i class="fas fa-times"></i> Cancel Booking
+            </button>
+          `;
+          listDiv.appendChild(itemDiv);
+        });
+
+        container.appendChild(listDiv);
+      }
+    }
+
+    function cancelBooking(index) {
+      let bookedItems = JSON.parse(localStorage.getItem('bookedItems') || '[]');
+      bookedItems.splice(index, 1);
+      localStorage.setItem('bookedItems', JSON.stringify(bookedItems));
+      loadBookedItems();
+    }
+
+    window.onload = loadBookedItems;
+  </script>
+
+</body>
+</html>
